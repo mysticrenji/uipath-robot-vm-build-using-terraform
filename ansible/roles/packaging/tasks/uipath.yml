@@ -1,0 +1,26 @@
+---
+# chrome extension cannot be enabled automatically:
+# https://support.google.com/chrome/thread/9069715?hl=en
+- name: Install UiPath Studio
+  win_package:
+    path: https://download.uipath.com/versions/22.10.5/UiPathStudio.msi
+    arguments:
+    - /quiet
+    - ADDLOCAL=DesktopFeature,Robot,Packages,Studio,StartupLauncher,RegisterService,JavaBridge,ChromeExtension
+    state: present
+    # product_id: '{3067A978-2709-4976-8F50-6CD65A1DC380}'
+
+- name: Set service startup mode to auto and ensure it is started
+  win_service:
+    name: UiRobotSvc
+    start_mode: auto
+    state: started
+
+# - name: Install UiPath Remote Runtime
+#   win_package:
+#     path: https://download.uipath.com/versions/22.10.5/UiPathRemoteRuntime.msi
+#     arguments:
+#       - /quiet
+#       - ADDLOCAL=RemoteRuntime,RemoteRuntimeTask
+#     state: present
+#     product_id: '{4F20761E-8F80-43AA-BFEE-C6272C5DE196}'

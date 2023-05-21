@@ -1,0 +1,3 @@
+---
+
+winrm_shell_memory_limit_mb: "5120"

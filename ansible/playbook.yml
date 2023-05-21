@@ -1,0 +1,6 @@
+---
+- name: VM Configuration Playbook
+  hosts: all
+  become_method: runas
+  roles:
+    -  packaging
