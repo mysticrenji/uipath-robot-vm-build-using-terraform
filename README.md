@@ -61,7 +61,7 @@ export AZURE_SECRET=""
 2. Configure - [WINRM](https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1)
 ## Issues on the code
 
-1. Being on sandbox subscription, machines provisioned wont able to join  Azure AD. Unable to map any svc accounts and login with the account
+1. Being on trial subscription, machines provisioned wont able to join  Azure AD. Unable to map any svc accounts and login with the account
 2. Softwares need to be in place
 3. Different Machine types for environments
 4. Different VNET networks for different environments?
