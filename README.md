@@ -37,7 +37,7 @@ terraform apply -var-file=auto.tfvars -target=module.storage
 
 ## Bastion host for secure access of VM
 By default VM provisioned on Azure can be accessed publicaly. In secure way, it is best to access via a BastionHost which act a gateway to the VMs inside the subnet. </br>
-![Bastion Host](./images/architecture.png)
+![Bastion Host](./images/Terraform.png)
 
 ## Ansible Control Server Setup [Ubuntu]
 The machine must have python3 and pip3 installed to configure python libraries. On the windows host machines WINRM needs to be configured first inorder for ansible to communicate and work
