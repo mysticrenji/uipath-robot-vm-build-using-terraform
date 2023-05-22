@@ -8,7 +8,7 @@ Below diagram shows the basic structure of the resources provisioned by Terrafor
 
 ## Solution Structure
 Below diagram shows the basic structure of the terraform solution </br>
-![Structure](./images/folder-structure.png) 
+![Structure](./images/architecture.png) 
 ## Executing the Terraform Scripts
 ```
 # Export the credentials to the session
