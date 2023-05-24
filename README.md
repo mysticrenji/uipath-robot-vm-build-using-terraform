@@ -1,5 +1,5 @@
-# POC using Terraform and Powershell
-This folder contains the source code related to Terraform, for provision VM on Azure and Customizing it using Powershell
+# Provision VM using Terraform and Ansible
+This folder contains the source code related to Terraform, for provision VM on Azure and Customizing it using Ansible
 
 ## Terraform Resource Provisioning
 Below diagram shows the basic structure of the resources provisioned by Terraform </br>
