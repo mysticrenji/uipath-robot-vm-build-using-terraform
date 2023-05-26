@@ -43,11 +43,15 @@ By default VM provisioned on Azure can be accessed publicaly. In secure way, it 
 The machine must have python3 and pip3 installed to configure python libraries. On the windows host machines WINRM needs to be configured first inorder for ansible to communicate and work
 ```
 sudo apt-get update
-sudo apt-get install python3-dev python3-pip ansible
-pip3 install setuptools-rust pywinrm
+sudo apt-get install -y python3-dev python3-pip
+pip3 install setuptools-rust pywinrm ansible
 pip3 install --upgrade pip
-pip3 install ansible[azure]
-ansible-galaxy install azure.azure_preview_modules
+ansible-galaxy collection install community.windows
+
+sudo apt-get update && sudo apt-get install -y gnupg software-properties-common gpg
+wget -O- https://apt.releases.hashicorp.com/gpg | gpg --dearmor | sudo tee /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update && sudo apt install -y terraform
 
 # Export Credentials into session, so that Ansible can use the values
 export AZURE_CLIENT_ID=""
