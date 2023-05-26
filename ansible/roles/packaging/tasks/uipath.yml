@@ -16,6 +16,11 @@
     start_mode: auto
     state: started
 
+- name: Register Unattended Robot with UIPath Cloud Instance
+  win_shell: |
+      cd C:\Program Files\UiPath\Studio
+      UiRobot.exe --connect -url {{ orchestratorURL }} -key {{ machineKey }}
+
 # - name: Install UiPath Remote Runtime
 #   win_package:
 #     path: https://download.uipath.com/versions/22.10.5/UiPathRemoteRuntime.msi

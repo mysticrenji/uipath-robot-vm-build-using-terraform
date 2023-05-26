@@ -66,6 +66,8 @@ module "compute-windows" {
   storage_account_SAS       = module.storage.storage_account_access_key
   admin_password            = var.admin_password
   admin_username            = var.admin_username
+  orchestratorURL           = var.orchestratorURL
+  machineKey                = var.machineKey
 }
 
 module "compute-linux" {

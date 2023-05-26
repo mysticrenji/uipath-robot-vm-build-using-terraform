@@ -11,3 +11,5 @@ variable "storage_account_fileshare" {}
 variable "storage_account_SAS" {}
 variable "admin_username" {}
 variable "admin_password" {}
+variable "orchestratorURL" {}
+variable "machineKey" {}

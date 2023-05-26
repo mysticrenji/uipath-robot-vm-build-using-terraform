@@ -63,7 +63,7 @@ resource "azurerm_virtual_machine_extension" "software" {
 
   protected_settings = <<SETTINGS
   {
-    "commandToExecute": "powershell -command \"[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${base64encode(data.template_file.playbook.rendered)}')) | Out-File -filepath configurewinrm.ps1\" && powershell -ExecutionPolicy Unrestricted -File configurewinrm.ps1 -AdmincredsUserName ${data.template_file.playbook.vars.AdmincredsUserName} -AdmincredsPassword ${data.template_file.playbook.vars.AdmincredsPassword} -StorageAccountName ${data.template_file.playbook.vars.StorageAccountName} -FileShareName ${data.template_file.playbook.vars.FileShareName} -StorageAccountKeys ${data.template_file.playbook.vars.StorageAccountKeys}"
+    "commandToExecute": "powershell -command \"[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${base64encode(data.template_file.playbook.rendered)}')) | Out-File -filepath configurewinrm.ps1\" && powershell -ExecutionPolicy Unrestricted -File configurewinrm.ps1 -AdmincredsUserName ${data.template_file.playbook.vars.AdmincredsUserName} -AdmincredsPassword ${data.template_file.playbook.vars.AdmincredsPassword} -StorageAccountName ${data.template_file.playbook.vars.StorageAccountName} -FileShareName ${data.template_file.playbook.vars.FileShareName} -StorageAccountKeys ${data.template_file.playbook.vars.StorageAccountKeys} -OrchestratorURL ${data.template_file.playbook.vars.OrchestratorURL} -MachineKey ${data.template_file.playbook.vars.MachineKey}"
   }
 
   SETTINGS
@@ -77,6 +77,8 @@ data "template_file" "playbook" {
     StorageAccountName = "${var.storage_account_name}"
     FileShareName      = "${var.storage_account_fileshare}"
     StorageAccountKeys = "${var.storage_account_SAS}"
+    OrchestratorURL    = "${var.orchestratorURL}"
+    MachineKey         = "${var.machineKey}"
   }
 }
 

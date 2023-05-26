@@ -28,3 +28,5 @@ variable "storage_account_region" {}
 variable "storage_account_name" {}
 variable "storage_account_fileshare" {}
 # variable "priv_dns_zone" {}
+variable "orchestratorURL" {}
+variable "machineKey" {}
