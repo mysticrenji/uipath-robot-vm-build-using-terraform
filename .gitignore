@@ -33,3 +33,4 @@ override.tf.json
 .werf
 .terraform
 .cred
+auto.tfvars
