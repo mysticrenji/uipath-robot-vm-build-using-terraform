@@ -18,8 +18,8 @@
 
 - name: Register Unattended Robot with UIPath Cloud Instance
   win_shell: |
-      cd C:\Program Files\UiPath\Studio
-      UiRobot.exe --connect -url {{ orchestratorURL }} -key {{ machineKey }}
+      cd "C:\Program Files\UiPath\Studio"
+      ./UiRobot.exe --connect --url "{{ orchestratorurl }}" --key "{{ machinekey }}"
 
 # - name: Install UiPath Remote Runtime
 #   win_package:

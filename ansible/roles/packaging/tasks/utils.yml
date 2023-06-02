@@ -2,75 +2,75 @@
 - name: Install Azure PowerShell module
   win_chocolatey:
     name: az.powershell
-    version: '9.7.1'
+    version: "9.7.1"
     source: https://community.chocolatey.org/api/v2/
     state: present
 
 - name: Map Azure fileshare as drive
-  become: yes
+  become: true
   become_user: adminuser
   win_shell: |
-      $storageAccountName = "{{ storageaccountname }}"
-      $fileShareName = "{{ filesharename }}"
-      $storageAccountKeys = "{{ storageaccountkeys }}"
-      echo $storageAccountName $fileShareName $storageAccountKeys
-      $connectTestResult = Test-NetConnection -ComputerName $("$storageAccountName.file.core.windows.net") -Port 445
+    $storageAccountName = "{{ storageaccountname }}"
+    $fileShareName = "{{ filesharename }}"
+    $storageAccountKeys = "{{ storageaccountkeys }}"
+    echo $storageAccountName $fileShareName $storageAccountKeys
+    $connectTestResult = Test-NetConnection -ComputerName $("$storageAccountName.file.core.windows.net") -Port 445
 
-      if ($connectTestResult.TcpTestSucceeded) {
-          cmd.exe /C "cmdkey /add:`"$($storageAccountName).file.core.windows.net`" /user:`"localhost\$($storageAccountName)`" /pass:`"$($storageAccountKeys)`""
-          # Mount the drive
-          New-PSDrive -Name Y -PSProvider FileSystem -Root "\\$($storageAccountName).file.core.windows.net\$($fileShareName)" -Persist -Scope Global
-      }
-      else {
-          Write-Output "$(Get-TimeStamp) Unable to reach the Azure storage account via port 445. Please check your network connection." | Out-File C:\FileShareMount.txt -Append
-      }
+    if ($connectTestResult.TcpTestSucceeded) {
+        cmd.exe /C "cmdkey /add:`"$($storageAccountName).file.core.windows.net`" /user:`"localhost\$($storageAccountName)`" /pass:`"$($storageAccountKeys)`""
+        # Mount the drive
+        New-PSDrive -Name Y -PSProvider FileSystem -Root "\\$($storageAccountName).file.core.windows.net\$($fileShareName)" -Persist -Scope Global
+    }
+    else {
+        Write-Output "$(Get-TimeStamp) Unable to reach the Azure storage account via port 445. Please check your network connection." | Out-File C:\FileShareMount.txt -Append
+    }
 
 - name: List files inside storage drive
-  become: yes
+  become: true
   become_user: adminuser
   win_shell: |
-      cd "\\{{ storageaccountname }}.file.core.windows.net\{{ filesharename }}"
-      ls
+    cd "\\{{ storageaccountname }}.file.core.windows.net\{{ filesharename }}"
+    ls
 
 - name: Install git client
   win_chocolatey:
     name: git
-    version: '2.40.1'
+    version: "2.40.1"
     source: https://community.chocolatey.org/api/v2/
     state: present
 
 - name: Install Notepad++
   win_chocolatey:
     name: notepadplusplus
-    version: '8.5.3'
+    version: "8.5.3"
     source: https://community.chocolatey.org/api/v2/
     state: present
 
 - name: Install 7zip
   win_chocolatey:
     name: 7zip
-    version: '22.1'
+    version: "22.1"
     source: https://community.chocolatey.org/api/v2/
     state: present
 
 - name: Install Cutepdf
   win_chocolatey:
     name: cutepdf
-    version: '4.0.1.201'
+    version: "4.0.1.201"
     source: https://community.chocolatey.org/api/v2/
     state: present
 
 - name: Install TightVNC
   win_chocolatey:
     name: tightvnc
-    version: '2.8.81'
+    version: "2.8.81"
     source: https://community.chocolatey.org/api/v2/
     state: present
 
 - name: Install Chrome
   win_chocolatey:
     name: googlechrome
-    version: '113.0.5672.127'
+    version: "113.0.5672.127"
     pinned: yes
     source: https://community.chocolatey.org/api/v2/
     state: present
@@ -78,31 +78,30 @@
 - name: Install Adobe Reader
   win_chocolatey:
     name: adobereader
-    version: '2023.001.20143'
+    version: "2023.001.20143"
     source: https://community.chocolatey.org/api/v2/
     state: present
 
 - name: Install Microsoft Edge
   win_chocolatey:
     name: microsoft-edge
-    version: '113.0.1774.50'
+    version: "113.0.1774.50"
     source: https://community.chocolatey.org/api/v2/
     state: present
 
 - name: Install Corretto JDK
   win_chocolatey:
     name: corretto11jdk
-    version: '11.0.19'
+    version: "11.0.19"
     source: https://community.chocolatey.org/api/v2/
     state: present
 
 - name: Install Splunk Forwarder
   win_chocolatey:
     name: splunk-universalforwarder
-    version: '9.0.4'
+    version: "9.0.4"
     source: https://community.chocolatey.org/api/v2/
     state: present
-
 # - name: Install python
 #   win_chocolatey:
 #     name: python3
