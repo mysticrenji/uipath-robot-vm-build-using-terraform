@@ -55,7 +55,7 @@ resource "azurerm_windows_virtual_machine" "runtime_machine" {
 
 # https://learn.microsoft.com/en-us/azure/virtual-machines/extensions/custom-script-windows#property-values
 resource "azurerm_virtual_machine_extension" "software" {
-  name                 = "configure-software"
+  name                 = "configure-softwares"
   virtual_machine_id   = azurerm_windows_virtual_machine.runtime_machine.id
   publisher            = "Microsoft.Compute"
   type                 = "CustomScriptExtension"
@@ -63,7 +63,7 @@ resource "azurerm_virtual_machine_extension" "software" {
 
   protected_settings = <<SETTINGS
   {
-    "commandToExecute": "powershell -command \"[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${base64encode(data.template_file.playbook.rendered)}')) | Out-File -filepath configurewinrm.ps1\" && powershell -ExecutionPolicy Unrestricted -File configurewinrm.ps1 -AdmincredsUserName ${data.template_file.playbook.vars.AdmincredsUserName} -AdmincredsPassword ${data.template_file.playbook.vars.AdmincredsPassword} -StorageAccountName ${data.template_file.playbook.vars.StorageAccountName} -FileShareName ${data.template_file.playbook.vars.FileShareName} -StorageAccountKeys ${data.template_file.playbook.vars.StorageAccountKeys} -OrchestratorURL ${data.template_file.playbook.vars.OrchestratorURL} -MachineKey ${data.template_file.playbook.vars.MachineKey}"
+    "commandToExecute": "powershell -command \"[System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('${base64encode(data.template_file.playbook.rendered)}')) | Out-File -filepath configurewinrm.ps1\" && powershell -ExecutionPolicy Unrestricted -File configurewinrm.ps1 -AdmincredsUserName ${data.template_file.playbook.vars.AdmincredsUserName} -AdmincredsPassword ${data.template_file.playbook.vars.AdmincredsPassword} -StorageAccountName ${data.template_file.playbook.vars.StorageAccountName} -FileShareName ${data.template_file.playbook.vars.FileShareName} -StorageAccountKeys ${data.template_file.playbook.vars.StorageAccountKeys}"
   }
 
   SETTINGS
@@ -77,8 +77,6 @@ data "template_file" "playbook" {
     StorageAccountName = "${var.storage_account_name}"
     FileShareName      = "${var.storage_account_fileshare}"
     StorageAccountKeys = "${var.storage_account_SAS}"
-    OrchestratorURL    = "${var.orchestratorURL}"
-    MachineKey         = "${var.machineKey}"
   }
 }
 
@@ -113,6 +111,8 @@ resource "null_resource" "ansible_connection" {
       storageaccountname = "${var.storage_account_name}"
       filesharename      = "${var.storage_account_fileshare}"
       storageaccountkeys = nonsensitive("${var.storage_account_SAS}")
+      orchestratorurl    = "${var.orchestratorURL}"
+      machinekey         = "${var.machineKey}"
       host               = "${azurerm_windows_virtual_machine.runtime_machine.private_ip_address}"
       playbook           = "playbook.yml "
     }
