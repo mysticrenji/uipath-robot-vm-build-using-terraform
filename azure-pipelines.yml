@@ -1,8 +1,4 @@
 name: provision-vm
-# resources:
-#   containers:
-#     - container: buildpacks-infra
-#       image: ghcr.io/mysticrenji/buildpacks-infra:v1.0.1
 pool:
   name: Azure Pipelines
   vmImage: 'ubuntu-latest'
@@ -20,7 +16,6 @@ stages:
     displayName: "Terraform Build"
     jobs:
       - job: Terraform_Init
-        # container: buildpacks-infra
         steps:
           - script: |
                 export ARM_ACCESS_KEY=$(ARM_ACCESS_KEY)
@@ -30,7 +25,7 @@ stages:
                 export ARM_TENANT_ID=$(ARM_TENANT_ID)
                 terraform init
                 terraform fmt
-            workingDirectory: $(Build.SourcesDirectory)/poc-tf-vm-provisioning
+            workingDirectory: $(Build.SourcesDirectory)
           - task: Cache@2
             displayName: "Register TF providers"
             inputs:
@@ -39,9 +34,7 @@ stages:
 
       - job: Terraform_Plan
         dependsOn: Terraform_Init
-        # container: buildpacks-infra
         steps:
-
           - task: Cache@2
             displayName: "Cache TF providers"
             inputs:
@@ -56,18 +49,17 @@ stages:
                 terraform plan -var-file=auto.tfvars -out output.tfplan
                 terraform show -no-color -json output.tfplan > output.json
             displayName: "Terraform Plan"
-            workingDirectory: $(tfWorkSpace)/poc-tf-vm-provisioning
-          # - task: TerraformOutput@1
-          #   inputs:
-          #     outputFilePath: $(tfWorkSpace)/terraform/output.tfplan
-          #     artifactName: Staging
+            workingDirectory: $(tfWorkSpace)
+           - task: TerraformOutput@1
+             inputs:
+               outputFilePath: $(tfWorkSpace)/terraform/output.tfplan
+               artifactName: Staging
   - stage: "Review_Terraform_Plan"
     displayName: "Review Terraform Plan"
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/feature-modules-bastion')
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
     dependsOn: Terraform_Build
     jobs:
       - deployment: Terraform_Apply
-        # container: buildpacks-infra
         displayName: Terraform Apply
         environment: "Staging"
         strategy:
@@ -88,4 +80,4 @@ stages:
                     export ARM_TENANT_ID=$(ARM_TENANT_ID)
                     terraform apply -var-file=auto.tfvars -auto-approve
                   displayName: Terraform Apply
-                  workingDirectory: $(tfWorkSpace)/poc-tf-vm-provisioning
+                  workingDirectory: $(tfWorkSpace)
