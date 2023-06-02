@@ -60,7 +60,7 @@ module "compute-windows" {
   runtime_vnet_name         = module.virtual_networks.runtime_vnet_name
   runtime_nsg_id            = module.networksecuritygroup.runtime_nsg_id
   runtime_farm_subnet_id    = module.virtual_networks.runtime_farm_subnet
-  depends_on                = [module.networksecuritygroup, time_sleep.wait_30_seconds]
+  depends_on                = [module.networksecuritygroup, module.compute-linux, time_sleep.wait_30_seconds]
   storage_account_name      = var.storage_account_name
   storage_account_fileshare = var.storage_account_fileshare
   storage_account_SAS       = module.storage.storage_account_access_key
