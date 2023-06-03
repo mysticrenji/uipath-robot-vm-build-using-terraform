@@ -1,5 +1,6 @@
 # Provision VM using Terraform and Ansible
 This folder contains the source code related to Terraform, for provision VM on Azure and Customizing it using Ansible
+- The complete walkthrough for the setup is availiable [here](https://faun.pub/provisioning-uipath-robot-machines-using-terraform-ansible-905626a5b0dc?sk=c85e6b13819fd9e711401feb97cc3ef9)
 
 ## Terraform Resource Provisioning
 Below diagram shows the basic structure of the resources provisioned by Terraform </br>
