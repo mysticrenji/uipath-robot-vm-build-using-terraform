@@ -35,3 +35,4 @@ New-PSDrive -Name Z -PSProvider FileSystem -Root "\\$($storageAccountName).file.
 else {
 Write-Output "$(Get-TimeStamp) Unable to reach the Azure storage account via port 445. Please check your network connection." | Out-File C:\FileShareMount.txt -Append
 }
+
