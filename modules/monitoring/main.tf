@@ -10,7 +10,6 @@ resource "azurerm_monitor_data_collection_rule" "rule_1" {
   name                = "log_collection_rule_1"
   location            = var.location
   resource_group_name = var.name
-  #  depends_on          = [azurerm_virtual_machine_extension.ama]
 
   destinations {
     log_analytics {
