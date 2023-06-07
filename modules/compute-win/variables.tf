@@ -14,3 +14,10 @@ variable "admin_password" {}
 variable "orchestratorURL" {}
 variable "machineKey" {}
 variable "data_collection_rule_id" {}
+variable "tags" {
+  type = map(any)
+
+  default = {
+    terraform = "true"
+  }
+}

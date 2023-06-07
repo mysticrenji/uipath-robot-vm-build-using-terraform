@@ -88,7 +88,10 @@ resource "azurerm_virtual_machine_extension" "azure_monitor_agent" {
   type_handler_version       = "1.10"
   auto_upgrade_minor_version = "true"
   depends_on                 = [azurerm_virtual_machine_extension.software]
-
+  tags =  merge(var.tags, tomap({ "firstapply" = timestamp() }))
+  lifecycle {
+   ignore_changes = [tags]
+  }
 }
 
 # data collection rule association
