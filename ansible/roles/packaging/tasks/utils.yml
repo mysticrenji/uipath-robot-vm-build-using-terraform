@@ -49,7 +49,7 @@
 - name: Install 7zip
   win_chocolatey:
     name: 7zip
-    version: "22.1"
+    version: "22.1.0"
     source: https://community.chocolatey.org/api/v2/
     state: present
 
