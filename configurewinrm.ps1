@@ -36,3 +36,4 @@ else {
 Write-Output "$(Get-TimeStamp) Unable to reach the Azure storage account via port 445. Please check your network connection." | Out-File C:\FileShareMount.txt -Append
 }
 
+Restart-Computer
