@@ -83,15 +83,27 @@ data "template_file" "playbook" {
 resource "azurerm_virtual_machine_extension" "azure_monitor_agent" {
   name                       = "az_monitor_agent"
   virtual_machine_id         = azurerm_windows_virtual_machine.runtime_machine.id
+  auto_upgrade_minor_version = true
+  automatic_upgrade_enabled  = true
   publisher                  = "Microsoft.Azure.Monitor"
   type                       = "AzureMonitorWindowsAgent"
-  type_handler_version       = "1.10"
-  auto_upgrade_minor_version = "true"
+  type_handler_version       = "1.14"
   depends_on                 = [azurerm_virtual_machine_extension.software]
-  tags =  merge(var.tags, tomap({ "firstapply" = timestamp() }))
+  tags                       = merge(var.tags, tomap({ "firstapply" = timestamp() }))
   lifecycle {
-   ignore_changes = [tags]
+    ignore_changes = [tags]
   }
+}
+
+resource "azurerm_virtual_machine_extension" "azure_dependency_agent" {
+  name                       = "az_dependency_agent"
+  auto_upgrade_minor_version = true
+  automatic_upgrade_enabled  = true
+  publisher                  = "Microsoft.Azure.Monitoring.DependencyAgent"
+  type                       = "DependencyAgentWindows"
+  type_handler_version       = "9.10"
+  virtual_machine_id         = azurerm_windows_virtual_machine.runtime_machine.id
+  settings                   = jsonencode({ "enableAMA" = "true" })
 }
 
 # data collection rule association

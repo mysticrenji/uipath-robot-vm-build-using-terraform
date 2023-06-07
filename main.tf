@@ -85,8 +85,8 @@ module "compute-linux" {
 }
 
 module "monitoring" {
-  source   = "./modules/monitoring"
-  location = var.runtime_region
-  name     = var.runtime_rg
+  source     = "./modules/monitoring"
+  location   = var.runtime_region
+  name       = var.runtime_rg
   depends_on = [azurerm_resource_group.runtime_farm]
 }
