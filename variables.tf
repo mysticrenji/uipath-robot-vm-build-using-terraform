@@ -30,3 +30,11 @@ variable "storage_account_fileshare" {}
 # variable "priv_dns_zone" {}
 variable "orchestratorURL" {}
 variable "machineKey" {}
+
+variable "tags" {
+  type = map(any)
+
+  default = {
+    terraform = "true"
+  }
+}

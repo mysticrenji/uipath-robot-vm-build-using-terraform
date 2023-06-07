@@ -60,7 +60,7 @@ module "compute-windows" {
   runtime_vnet_name         = module.virtual_networks.runtime_vnet_name
   runtime_nsg_id            = module.networksecuritygroup.runtime_nsg_id
   runtime_farm_subnet_id    = module.virtual_networks.runtime_farm_subnet
-  depends_on                = [module.networksecuritygroup, module.compute-linux, time_sleep.wait_30_seconds]
+  depends_on                = [module.networksecuritygroup, module.compute-linux, module.monitoring, time_sleep.wait_30_seconds]
   storage_account_name      = var.storage_account_name
   storage_account_fileshare = var.storage_account_fileshare
   storage_account_SAS       = module.storage.storage_account_access_key
@@ -68,6 +68,7 @@ module "compute-windows" {
   admin_username            = var.admin_username
   orchestratorURL           = var.orchestratorURL
   machineKey                = var.machineKey
+  data_collection_rule_id   = module.monitoring.az_monitor_rule_id
 }
 
 module "compute-linux" {
@@ -81,4 +82,11 @@ module "compute-linux" {
   runtime_farm_subnet_id = module.virtual_networks.runtime_farm_subnet
   ssh_public_key         = var.ssh_public_key
   depends_on             = [module.networksecuritygroup, module.virtual_networks, time_sleep.wait_30_seconds]
+}
+
+module "monitoring" {
+  source     = "./modules/monitoring"
+  location   = var.runtime_region
+  name       = var.runtime_rg
+  depends_on = [azurerm_resource_group.runtime_farm]
 }
