@@ -80,6 +80,24 @@ data "template_file" "playbook" {
   }
 }
 
+resource "azurerm_virtual_machine_extension" "azure_monitor_agent" {
+  name                       = "az_monitor_agent"
+  virtual_machine_id         = azurerm_windows_virtual_machine.runtime_machine.id
+  publisher                  = "Microsoft.Azure.Monitor"
+  type                       = "AzureMonitorWindowsAgent"
+  type_handler_version       = "1.10"
+  auto_upgrade_minor_version = "true"
+  depends_on                 = [azurerm_virtual_machine_extension.software]
+
+}
+
+# data collection rule association
+resource "azurerm_monitor_data_collection_rule_association" "data_collection_association" {
+  name                    = "data-collection-link-${var.machinename}"
+  target_resource_id      = azurerm_windows_virtual_machine.runtime_machine.id
+  data_collection_rule_id = var.data_collection_rule_id
+}
+
 # Join the virtual machine to the Azure Active Directory domain
 # resource "azurerm_virtual_machine_domain_join_extension" "join-ad" {
 #   virtual_machine_id         = azurerm_virtual_machine.example.id
