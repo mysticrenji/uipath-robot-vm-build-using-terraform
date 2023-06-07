@@ -71,7 +71,7 @@
   win_chocolatey:
     name: googlechrome
     version: "113.0.5672.127"
-    pinned: yes
+    #pinned: yes
     source: https://community.chocolatey.org/api/v2/
     state: present
 
