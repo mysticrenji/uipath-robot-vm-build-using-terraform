@@ -23,11 +23,6 @@ resource "azurerm_monitor_data_collection_rule" "rule_1" {
   }
 
   data_flow {
-    streams      = ["Microsoft-Event"]
-    destinations = ["log-analytics"]
-  }
-
-  data_flow {
     streams      = ["Microsoft-InsightsMetrics"]
     destinations = ["azure-monitor-metrics"]
   }
